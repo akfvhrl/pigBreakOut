@@ -11,45 +11,95 @@
   <body>
     <div id="pageWrapper">
       <div id="main">
-        <img src="src/1_wolf.png" class="main__wolf">
-        <img src="src/4_title.png" class="main__title">
-        <img src="src/2_house.png" class="main__house">
+        <img src="src/1_wolf.png" class="main__wolf" />
+        <img src="src/4_title.png" class="main__title" />
+        <img src="src/pigs_1.png" class="main__pig main__pig1" />
+        <img src="src/pigs_2.png" class="main__pig main__pig2" />
+        <img src="src/pigs_3.png" class="main__pig main__pig3" />
+
+        <img src="src/2_house.png" class="main__house" />
         <div class="main__btnBox">
-          <img src="src/3_button_option.png" class="btnBox main__btnBox__setBtn">
-          <img src="src/3_button_eat.png" class="btnBox main__btnBox__playBtn">
-          <img src="src/3_button_story.png" class="btnBox main__btnBox__storyBtn">
+          <img
+            src="src/3_button_option.png"
+            class="btnBox main__btnBox__setBtn"
+          />
+          <img
+            src="src/3_button_eat.png"
+            class="btnBox main__btnBox__playBtn"
+          />
+          <img
+            src="src/3_button_story.png"
+            class="btnBox main__btnBox__storyBtn"
+          />
         </div>
       </div>
       <div id="story">
         <div class="story__background">
-          <img src="src/6_daddy.png" class="story__daddy">
-          <img src="src/2_house_1.png" class="story__house1">
-          <img src="src/2_house_2.png" class="story__house2">
-          <img src="src/2_house_3.png" class="story__house3">
-          <img src="src/wolf_4.png" class="story__wolf">
-          <img src="src/pigs_1.png" class="story__pig1">
-          <img src="src/pigs_2.png" class="story__pig2">
-          <img src="src/pigs_3.png" class="story__pig3">
+          <img src="src/6_daddy.png" class="story__daddy" />
+          <img src="src/2_house_1.png" class="story__house1" />
+          <img src="src/2_house_2.png" class="story__house2" />
+          <img src="src/2_house_3.png" class="story__house3" />
+          <img src="src/wolf_4.png" class="story__wolf" />
+          <img src="src/pigs_1.png" class="story__pig1" />
+          <img src="src/pigs_2.png" class="story__pig2" />
+          <img src="src/pigs_3.png" class="story__pig3" />
         </div>
         <div class="story__contents">
-          <div class="story__text">1</div>
-          <div class="story__text">2</div>
-          <div class="story__text">3</div>
+          <p class="story__contents__p1">
+            평화로운 숲속엔 아기돼지 삼형제와 아빠 돼지가 살고 있어요.
+            <br /><br />
+            배고픈 늑대는 이 돼지들을 잡아먹고 싶었죠.
+            <br /><br />
+            하지만 힘이 센 아빠 돼지 때문에 늘 실패하고 말았어요.
+          </p>
+          <p class="story__contents__p2">
+            그러던 어느날, <br /><br />
+            아기돼지들이 독립을 하게 되었어요!
+            <br /><br />
+            배고픈 늑대는 이 기회를 놓칠 수 없어요!
+          </p>
+          <p class="story__contents__p3">
+            늑대는 집에 숨어버린 돼지들을 찾아내려 해요.
+            <br /><br />
+            과연 아기돼지들을 잡아먹을 수 있을까요?
+            <br /><br />
+            <br />
+            🐷최소한으로 벽돌을 깨 돼지를 찾아보세요!🐷
+          </p>
         </div>
         <div class="story__buttons">
-          <img src="src/3_button_story.png" class="btnBox story__main">
+          <img src="src/home.png" class="btnBox story__main" />
         </div>
       </div>
       <div id="settings">
-        <div>BGM</div>
-        <div>늑대 선택</div>
-        <div>Paddle 선택</div>
-        <div>배경 선택</div>
+        <div class="settings__label">
+          <span>BGM</span>
+          <div class="settings__label__bgm">
+            <div class="settings__label__bgm__bgm1">BGM 1</div>
+            <div class="settings__label__bgm__bgm2">BGM 2</div>
+            <div class="settings__label__bgm__bgm3">BGM 3</div>
+            <div class="settings__label__bgm__mute">MUTE</div>
+          </div>
+        </div>
+        <div class="settings__label">
+          <span>Paddle</span>
+          <div class="settings__label__paddle">
+            <div class="settings__label__paddle__paddle1"></div>
+            <div class="settings__label__paddle__paddle2"></div>
+          </div>
+        </div>
+        <div class="settings__label">
+          <span>Background Image</span>
+          <div class="settings__label__bckImg">
+            <div class="settings__label__bckImg__day">Day</div>
+            <div class="settings__label__bckImg__night">Night</div>
+          </div>
+        </div>
         <button class="settings__closeBtn">닫기</button>
       </div>
       <div id="difficulty">
-        <h1 class="difficulty__title">Difficulty</h1>
-        <img class="difficulty__wolf" src="src/wolfReverse.png" />
+        <h1 class="difficulty__title">Level</h1>
+        <img class="difficulty__wolf" src="src/wolf_2.png" />
         <div class="difficulty__container">
           <img
             class="difficulty__container__house1 difficultyHouseImg"
@@ -68,7 +118,13 @@
         </div>
       </div>
       <div id="easyGame">
-        <h1 class="easyGame__title">Easy Mode!</h1>
+        <div class="easyGame__UI UI">
+          <h1 class="easyGame__title UI__title">Easy Mode!</h1>
+          <div class="easyGame__Btn">
+            <img src="src/mute.png" id="easyGame__muteBtn" />
+            <img src="src/pause.png" id="easyGame__pauseBtn" />
+          </div>
+        </div>
         <canvas id="easyCanvas" width="400px" height="500px"></canvas>
         <div class="easyGame__stats">
           <span class="easyGame__stats__life">Life : 0</span>
@@ -76,7 +132,13 @@
         </div>
       </div>
       <div id="normalGame">
-        <h1 class="normalGame__title">Normal Mode!</h1>
+        <div class="UI">
+          <h1 class="normalGame__title">Normal Mode!</h1>
+          <div class="normalGame__Btn">
+            <img src="src/mute.png" id="normalGame__muteBtn" />
+            <img src="src/pause.png" id="normalGame__pauseBtn" />
+          </div>
+        </div>
         <canvas id="normalCanvas" width="400px" height="500px"></canvas>
         <div class="normalGame__stats">
           <span class="normalGame__stats__life">Life : 0</span>
@@ -84,7 +146,14 @@
         </div>
       </div>
       <div id="hardGame">
-        <h1 class="hardGame__title">Hard Mode!</h1>
+        <div class="UI">
+          <h1 class="hardGame__title">Hard Mode!</h1>
+          <div class="hardGame__Btn">
+            <img src="src/mute.png" id="hardGame__muteBtn" />
+            <img src="src/pause.png" id="hardGame__pauseBtn" />
+          </div>
+        </div>
+
         <canvas id="hardCanvas" width="400px" height="500px"></canvas>
         <div class="hardGame__stats">
           <span class="hardGame__stats__life">Life : 0</span>
@@ -93,12 +162,17 @@
       </div>
       <div id="win">
         <h1>You win!</h1>
+        <img src="src/wolf_1.png" id="win__pigs" />
+        <span class="win__stats"></span>
       </div>
       <div id="lose">
         <h1>You lose..</h1>
+        <img src="src/wolf_3.png" id="lose__wolf" />
       </div>
     </div>
+
     <script src="js/main.js"></script>
+    <script src="js/settings.js"></script>
     <script src="js/easyGame.js"></script>
     <script src="js/normalGame.js"></script>
     <script src="js/hardGame.js"></script>

@@ -8,10 +8,17 @@
 @import "screen/win.css";
 @import "screen/lose.css";
 
+/* font */
+@font-face {
+  font-family: "mapo";
+  src: url("../src/font/MapoHongdaeFreedom.otf");
+}
+
 * {
   margin: 0;
   padding: 0;
-  color: #f65df1;
+  font-family: "mapo";
+  color: rgb(0, 3, 190);
 }
 html,
 body {
@@ -31,7 +38,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("../src/5_background.png");
+  background-image: url("../src/background_day.png");
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;

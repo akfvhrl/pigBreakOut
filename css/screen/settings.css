@@ -2,10 +2,66 @@
   display: none;
   position: absolute;
   z-index: 1;
-  width: 300px;
-  height: 200px;
+  width: 600px;
+  height: 400px;
   background-color: beige;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+}
+.settings__label {
+  width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid salmon;
+  padding: 10px;
+}
+.settings__label:first-child {
+  margin-top: 40px;
+}
+.settings__label span {
+  margin-left: 30px;
+}
+.settings__label__bgm {
+  width: 250px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-right: 40px;
+}
+.settings__label__bgm div {
+  padding: 5px;
+}
+
+.settings__label__paddle {
+  width: 250px;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 40px;
+}
+.settings__label__paddle div {
+  width: 100px;
+  height: 10px;
+}
+
+.settings__label__paddle__paddle1 {
+  background-color: wheat;
+  border: 3px solid black;
+}
+.settings__label__paddle__paddle2 {
+  background-color: blue;
+}
+
+.settings__label__bckImg {
+  width: 250px;
+  display: flex;
+  justify-content: space-around;
+  margin-right: 40px;
+}
+.settings__label__bckImg div {
+  padding: 5px;
+}
+.settings__label__bckImg__day {
+  background-color: aquamarine;
 }

@@ -8,3 +8,18 @@
 #hardGame canvas {
   border: 3px solid aquamarine;
 }
+
+.hardGame__Btn {
+  margin-left: 100px;
+  width: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+#hardGame__muteBtn {
+  width: 30px;
+  margin-left: 30px;
+}
+#hardGame__pauseBtn {
+  margin-left: 10px;
+}

@@ -8,3 +8,21 @@
 #normalGame canvas {
   border: 3px solid aquamarine;
 }
+.normalGame__title {
+  font-size: 28px;
+}
+
+.normalGame__Btn {
+  margin-left: 100px;
+  width: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+#normalGame__muteBtn {
+  width: 30px;
+  margin-left: 30px;
+}
+#normalGame__pauseBtn {
+  margin-left: 10px;
+}

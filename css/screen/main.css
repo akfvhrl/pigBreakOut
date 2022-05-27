@@ -4,35 +4,70 @@
   align-items: center;
   justify-content: space-between;
 }
-.main__wolf{
+.main__wolf {
   display: block;
   position: absolute;
   z-index: 0;
   right: 0;
   top: 10px;
   width: 330px;
-
 }
-.main__title{
+.main__title {
   display: block;
   z-index: 1;
   width: 900px;
   margin-bottom: 10px;
   margin-top: 30px;
 }
-.main__house{
+.main__pig {
+  width: 60px;
+  position: absolute;
+  left: 180px;
+  bottom: 150px;
+}
+.main__pig1 {
+  width: 75px;
+}
+.main__pig2 {
+  width: 65px;
+  left: 370px;
+}
+.main__pig3 {
+  left: 560px;
+}
+.main__house {
   display: block;
   width: 550px;
   margin-top: 10px;
 }
-.main__btnBox{
+.main__btnBox {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 }
-.btnBox{
+.btnBox {
   display: block;
   width: 200px;
   margin: 20px 30px 0px 30px;
+}
+.UI{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 406px;
+}
+.UI__title{
+  display: block;
+  
+}
+.difficulty__container__house1{
+  opacity: 1;
+}
+.difficulty__container__house2{
+  opacity: 0.6;
+}
+.difficulty__container__house3{
+  opacity: 0.3;
 }

@@ -3,41 +3,48 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-.story_contents{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.story__text {
-  display: flex;
-  width: 500px;
-  height: 380px;
-  background-color: beige;
-  border: 10px solid orange;
-  border-radius: 20px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  font-size: 18px;
 }
 
-.story__buttons{
+.story__contents {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 490px;
+  height: 380px;
+  background-color: wheat;
+  border: orange 10px solid;
+  border-radius: 20px;
+}
+.story__contents p {
+  text-align: center;
+  height: 380px;
+  padding-top: 240px;
+}
+.story__contents__p2 {
+  display: none;
+}
+.story__contents__p3 {
+  display: none;
+}
+
+.story__buttons {
   display: flex;
   flex-direction: row;
-  position:absolute;
-  top: 35px;
-  left: 50px;
+  position: absolute;
+  top: 40px;
+  left: 45px;
   align-items: center;
   justify-content: center;
 }
 
-.story__main{
+.story__main {
   display: block;
-  width: 150px;
-  margin: 20px 30px 0px 30px;
+  width: 75px;
+  margin-left: 120px;
 }
 
-.story__wolf{
+.story__wolf {
   display: block;
   position: absolute;
   width: 260px;
@@ -45,21 +52,21 @@
   bottom: 30px;
 }
 
-.story__pig1{
+.story__pig1 {
   display: block;
   position: absolute;
   width: 33px;
   right: 140px;
   bottom: 165px;
 }
-.story__pig2{
+.story__pig2 {
   display: block;
   position: absolute;
   width: 30px;
   right: 85px;
   bottom: 165px;
 }
-.story__pig3{
+.story__pig3 {
   display: block;
   position: absolute;
   width: 27px;
@@ -67,28 +74,28 @@
   bottom: 165px;
 }
 
-.story__house1{
+.story__house1 {
   display: block;
   position: absolute;
   width: 70px;
   right: 125px;
   bottom: 170px;
 }
-.story__house2{
+.story__house2 {
   display: block;
   position: absolute;
   width: 70px;
   right: 60px;
   bottom: 170px;
 }
-.story__house3{
+.story__house3 {
   display: block;
   position: absolute;
   width: 70px;
   right: -2px;
   bottom: 170px;
 }
-.story__daddy{
+.story__daddy {
   display: block;
   position: absolute;
   width: 120px;

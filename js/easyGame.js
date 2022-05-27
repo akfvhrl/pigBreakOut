@@ -1,16 +1,55 @@
+//on_click event
 document
   .querySelector(".difficulty__container__house1")
-  .addEventListener("click", () => {
-    document.querySelector("#difficulty").style.display = "none";
-    document.querySelector("#easyGame").style.display = "flex";
-    gameStart();
-  });
+  .addEventListener("click", loadEasyGame);
+function loadEasyGame(){
+  document.querySelector("#difficulty").style.display="none";
+  document.querySelector("#easyGame").style.display="flex";
+  initEasyGame();
+  easyGameStart();
+}
+function loadNormalGame(){
+  document.querySelector("#difficulty").style.display="none";
+  document.querySelector("#normalGame").style.display="flex";
+  cvs = document.getElementById("normalCanvas");
+  ctx = cvs.getContext("2d");
 
+  lifeSpan = document.querySelector(".normalGame__stats__life");
+  scoreSpan = document.querySelector(".normalGame__stats__score");
+
+  title = document.querySelector(".normalGame__title");
+  initNormalGame();
+  normalGameStart();
+}
 //break.js
-
-function gameStart() {
+document.querySelector("#easyGame__muteBtn").addEventListener("click", () => {
+  var muteSrc = document.querySelector("#easyGame__muteBtn").src.split("/");
+  if (muteSrc[muteSrc.length - 1] == "mute.png") {
+    myaudio.pause();
+    document.querySelector("#easyGame__muteBtn").src = "./src/sound.png";
+  } else {
+    myaudio.play();
+    document.querySelector("#easyGame__muteBtn").src = "./src/mute.png";
+  }
+});
+var gamePause = false;
+var time;
+document // pause game..
+  .querySelector("#easyGame__pauseBtn")
+  .addEventListener("click", () => {
+    if (gamePause) {
+      gamePause = false;
+      time = setInterval(easyLoop, 10);
+    } else {
+      gamePause = true;
+      clearInterval(time);
+    }
+  });
+//startGame
+function easyGameStart() {
   createBricks();
-  time = setInterval(loop, 10); //속도조절
+  createPig();
+  time = setInterval(easyLoop, 10);
 }
 
 //캔버스 변수선언
@@ -37,7 +76,7 @@ var SCORE = 0; //user 점수
 //캔버스 border
 ctx.lineWidth = 3;
 
-//paddle객체
+//#region paddle - paddle객체 및 관련함수
 const paddle = {
   x: cvs.width / 2 - PADDLE_WIDTH / 2, //paddle x좌표 (초기 좌표는 캔버스 넓이의 1/2에서 paddle의 넓이 뺀 값)
   y: cvs.height - PADDLE_MARGIN_BOTTOM - PADDLE_HEIGHT, //paddle y좌표 (사각형의 x좌표와 y좌표는 왼쪽 상단 모서리의 좌표)
@@ -48,7 +87,7 @@ const paddle = {
 
 //paddle그리는 함수
 function drawPaddle() {
-  ctx.fillStyle = "wheat"; //paddle배경색
+  ctx.fillStyle = PADDLE_COLOR; //paddle배경색
   ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height); //paddle 배경 채우기
 
   ctx.strokeStyle = "LightPink"; //paddle 테두리색깔
@@ -85,8 +124,8 @@ function movePaddle() {
     paddle.x -= paddle.dx;
   }
 }
-
-//ball객체
+//#endregion --paddle
+//#region ball - ball 객체 및 관련함수
 const ball = {
   x: cvs.width / 2, //ball x좌표 (초기 좌표는 캔버스넓이의 1/2)
   y: paddle.y - BALL_RADIUS, //ball의 y좌표 (원의 x좌표와 y좌표는 원의 중심)
@@ -118,7 +157,10 @@ function moveBall() {
 
 //ball과 벽 충돌 시 실행하는 함수
 function ballWallCollision() {
-  if (ball.x+ ball.dx + ball.radius > cvs.width || ball.x + ball.dx - ball.radius < 0) {
+  if (
+    ball.x + ball.dx + ball.radius > cvs.width ||
+    ball.x + ball.dx - ball.radius < 0
+  ) {
     //오른쪽 벽에 부딪히거나 왼쪽벽에 부딪히면
     ball.dx = -ball.dx; //x변화량 반대로
   }
@@ -126,7 +168,7 @@ function ballWallCollision() {
     //위쪽벽에 부딪히면
     ball.dy = -ball.dy; //y변화량 반대로
   }
-  if (ball.y + ball.dy  + ball.radius > cvs.height) {
+  if (ball.y + ball.dy + ball.radius > cvs.height) {
     //아래쪽 벽에 부딪히면
     LIFE--; //user 목숨 감소
     resetBall(); //ball 초기화
@@ -160,10 +202,10 @@ function ballPaddleCollision() {
     ball.dy = -ball.speed * Math.cos(angle); //cos(a) = ball.dy/ball.speed 에서 유도 (y는 뒤집어줘야하므로 - 붙혀줌)
   }
 }
-
-//brick 객체
-const brick = {
-  row: 5, //행 개수
+//#endregion - ball
+//#region brick - brick 객체 및 관련함수
+var brick = {
+  row: 6, //행 개수
   column: 5, //열 개수
   width: 55, //brick 넓이
   height: 20, //brick 높이
@@ -171,10 +213,9 @@ const brick = {
   offSetTop: 0, //brick 위쪽 여백
   marginTop: 40, //맨위 brick과 캔버스사이 여백
   marginLeft: 65, //맨 왼쪽 brick과 캔버스사이 여백
-  fillColor: "Silver", //brick 배경색
-  strokeColor: "MistyRose", //brick 테두리색
 };
-
+var brickImg = new Image(brick.width, brick.height);
+brickImg.src = "src/testbrick.png";
 var bricks = []; //brick담을 2차원배열
 
 //brick 처음 생성하는 함수
@@ -183,7 +224,10 @@ function createBricks() {
     bricks[r] = []; //2차원배열생성
     for (var c = 0; c < brick.column; c++) {
       bricks[r][c] = {
-        x: c * (brick.offSetLeft + brick.width) + brick.offSetLeft + brick.marginLeft, //각 brick 마다의 x좌표 계산
+        x:
+          c * (brick.offSetLeft + brick.width) +
+          brick.offSetLeft +
+          brick.marginLeft, //각 brick 마다의 x좌표 계산
         y:
           r * (brick.offSetTop + brick.height) +
           brick.offSetTop +
@@ -200,27 +244,50 @@ function drawBricks() {
     for (var c = 0; c < brick.column; c++) {
       var b = bricks[r][c];
       if (b.status) {
-        //만약 brick이 깨지지 않았다면 그리기
-        ctx.fillStyle = brick.fillColor;
-        ctx.fillRect(b.x, b.y, brick.width, brick.height);
-        ctx.strokeStyle = brick.strokeColor;
-        ctx.strokeRect(b.x, b.y, brick.width, brick.height);
+        ctx.drawImage(brickImg, b.x, b.y, brick.width, brick.height);
       }
     }
   }
 }
-
+function isPointInCircle(tball,x,y){
+  var dx = tball.x - x;
+  var dy = tball.y - y;
+  var length = Math.sqrt(dx*dx+dy*dy);
+  if(length>tball.radius) return false;
+  return true;
+}
+function isCollision(tball,tbrick){
+  if((tbrick.x<=tball.x&&tball.x<=tbrick.x+brick.width)|| // 공의 중심이 
+    (tbrick.y<=tball.y&&tball.y<=tbrick.y-brick.height)){
+       //확장한 사각형
+      var left = tbrick.x - tball.radius;
+      var right = tbrick.x + brick.width + tball.radius;
+      var top = tbrick.y + brick.height -ball.radius;
+      var bottom = tbrick.y + ball.radius;
+      if((left<tball.x&&tball.x<right)&&(top<tball.y&&tball.y<bottom)){
+        return true;
+      }
+    } 
+  else{ //꼭짓점 확인
+    if(isPointInCircle(tball,tbrick.x,tbrick.y)) return true;
+    if(isPointInCircle(tball,tbrick.x,tbrick.y-brick.height)) return true;
+    if(isPointInCircle(tball,tbrick.x+brick.width,tbrick.y)) return true;
+    if(isPointInCircle(tball,tbrick.x+brick.width,tbrick.y-brick.height)) return true;
+  }
+  return false;
+}
 function ballBrickCollision() {
   for (var r = 0; r < brick.row; r++) {
     for (var c = 0; c < brick.column; c++) {
       var b = bricks[r][c];
       if (b.status) {
+        //if(isCollision(ball,b))
         //만약 brick이 깨지지 않았다면
         if (
-          ball.x + ball.radius > b.x +1  && //ball의 오른쪽이 brick의 왼쪽에 맞으면
-          ball.x - ball.radius < b.x + brick.width -1 && //ball의 왼쪽이 brick의 오른쪽에 맞으면
-          ball.y + ball.radius > b.y +1 && //ball의 아래쪽이 brick의 위쪽에 맞으면
-          ball.y - ball.radius < b.y + brick.height -1 //ball의 위쪽이 brick의 아래쪽에 맞으면
+          ball.x + ball.radius > b.x+2 && //ball의 오른쪽이 brick의 왼쪽에 맞으면
+          ball.x - ball.radius < b.x + brick.width-2 && //ball의 왼쪽이 brick의 오른쪽에 맞으면
+          ball.y + ball.radius > b.y+2 && //ball의 아래쪽이 brick의 위쪽에 맞으면
+          ball.y - ball.radius < b.y + brick.height-2 //ball의 위쪽이 brick의 아래쪽에 맞으면
         ) {
           ball.dy = -ball.dy; //방향변경 (수정필요할듯)
           b.status = false; // brick 깨짐
@@ -230,7 +297,56 @@ function ballBrickCollision() {
     }
   }
 }
+//#endregion - brick
+//#region pig - pig 객체 및 관련함수
+var isPigHit = false;
+var pig = {
+  // x,y좌표는 벽돌 내부 꼭짓점중 하나(반드시 4개의 블럭으로 둘러쌓여있음)
+  xindex: 1,
+  yindex: 1,
+  x: 1,
+  y: 1,
+  width: 30,
+  height: 30,
+};
 
+function createPig(){ //pig 생성자
+  var xindex=Math.floor(Math.random()*(brick.row-1))+1; //xindex
+  var yindex=Math.floor(Math.random()*(brick.column-1))+1;//yindex
+  pig.xindex=xindex;
+  pig.yindex=yindex;
+  pig.x=bricks[xindex][yindex].x-15; //돼지 몸통이 중심에 오도록..
+  pig.y=bricks[xindex][yindex].y-15;
+
+}
+var pigImg = new Image(pig.width, pig.height);
+pigImg.src = "src/pigs_1.png";
+function drawPig() {
+  ctx.drawImage(pigImg, pig.x, pig.y, pig.width, pig.height);
+}
+function isPigShown() {
+  if (
+    //자기를 둘러싸고 있는 벽돌이 다 깨지면
+    !bricks[pig.xindex - 1][pig.yindex].status &&
+    !bricks[pig.xindex - 1][pig.yindex - 1].status &&
+    !bricks[pig.xindex][pig.yindex].status &&
+    !bricks[pig.xindex][pig.yindex - 1].status
+  ) {
+    isPigHit = true; //게임끝!
+  }
+}
+//#endregion - pig
+function bricksToScore() {
+  // 남은 벽돌 추가점수 부여 함수.
+  var bonusScore = 0;
+  for (var r = 0; r < brick.row; r++) {
+    for (var c = 0; c < brick.column; c++) {
+      var b = bricks[r][c];
+      if (b.status) bonusScore += 2;
+    }
+  }
+  SCORE += bonusScore;
+}
 //user 목숨과 점수 업데이트
 function showGameStats() {
   lifeSpan.innerText = `Life : ${LIFE}`;
@@ -242,6 +358,7 @@ function showGameStats() {
 function draw() {
   drawPaddle();
   drawBall();
+  drawPig();
   drawBricks();
 }
 
@@ -249,41 +366,82 @@ function draw() {
 function update() {
   movePaddle();
   moveBall();
+  isPigShown();
   ballWallCollision();
   ballPaddleCollision();
   ballBrickCollision();
 }
 
 //게임 졌는지 확인하는 함수
-function gameOver() {
+function easyGameOver() {
   if (LIFE <= 0) {
     //졌다면
     clearInterval(time); //루프멈추고
-    title.innerText = "Game Over"; //게임 오버 출력
+    document.querySelector("#easyGame").style.display = "none";
+    document.querySelector("#lose").append("SCORE:" + SCORE);
+    document.querySelector("#lose").style.display = "flex";
   }
 }
 
 //게임 이겼는지 확인하는 함수
-function gameWin() {
+function easyGameWin() {
   var isGameWin = true;
-  for (var r = 0; r < brick.row; r++) {
-    for (var c = 0; c < brick.column; c++) {
-      isGameWin = isGameWin && !bricks[r][c].status; //하나라도 안깨진 brick 존재하면 isGameWin == false
+  if (!isPigHit) {
+    // pig가 맞지 않았다면..
+    for (var r = 0; r < brick.row; r++) {
+      for (var c = 0; c < brick.column; c++) {
+        isGameWin = isGameWin && !bricks[r][c].status; //하나라도 안깨진 brick 존재하면 isGameWin == false, 돼지 찾으면 끝.
+      }
     }
-  }
+  } //맞으면 그냥 바로 넘어감.
   if (isGameWin) {
     //이겼다면
+    if (isPigHit) {
+      // 돼지 찾아서 이긴거면
+      bricksToScore(); // 남은 brick 점수추가
+      SCORE += 50; //돼지 점수.
+    }
     clearInterval(time); //루프멈추고
     title.innerText = "You Win!"; //게임 승리 출력
+    setTimeout(() => {
+      // 1초 후에 난이도 화면으로 넘어감.
+      document.querySelector("#easyGame").style.display = "none";
+      document.querySelector("#difficulty").style.display = "flex";
+      var easymode = document.querySelector(".difficulty__container__house1");
+      easymode.setAttribute("src", "./src/house1Clear.png");
+      easymode.style.opacity = 0.5;
+      easymode.removeEventListener("click",loadEasyGame);
+      document.querySelector(
+        ".difficulty__container__house2"
+      ).style.opacity = 1;
+      document.querySelector(
+        ".difficulty__container__house3"
+      ).style.opacity = 0.5;
+      document // add click event to next level
+        .querySelector(".difficulty__container__house2")
+        .addEventListener("click",loadNormalGame);
+    }, 1000);
   }
 }
 
+function initEasyGame() {
+  time = 0;
+  LIFE = 3;
+  score = 0;
+  leftArrow = false;
+  rightArrow = false;
+  paddle.x = cvs.width / 2 - PADDLE_WIDTH / 2;
+  paddle.y = cvs.height - PADDLE_MARGIN_BOTTOM;
+  title.innerText = "Easy Mode!";
+
+  resetBall();
+}
 //메인루프
-function loop() {
+function easyLoop() {
   ctx.clearRect(0, 0, cvs.width, cvs.height); //캔버스 초기화
   update();
   draw();
   showGameStats();
-  gameOver();
-  gameWin();
+  easyGameOver();
+  easyGameWin();
 }
