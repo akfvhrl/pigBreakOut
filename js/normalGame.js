@@ -27,7 +27,7 @@ document // pause game..
   .addEventListener("click", () => {
     if (gamePause) {
       gamePause = false;
-      time = setInterval(normalLoop, 10);
+      time = setInterval(normalLoop, 8.5);
     } else {
       gamePause = true;
       clearInterval(time);
@@ -36,7 +36,7 @@ document // pause game..
 function normalGameStart() {
   createBricks();
   createPig();
-  time = setInterval(normalLoop, 10);
+  time = setInterval(normalLoop, 8.5);
 }
 function initNormalGame() {
   isPigHit = false;
@@ -80,6 +80,7 @@ function normalGameWin() {
     }
     clearInterval(time); //루프멈추고
     title.innerText = "You Win!"; //게임 승리 출력
+    title.classList.add("text-rainbow");
     setTimeout(() => {
       // 1초 후에 난이도 화면으로 넘어감.
       document.querySelector("#normalGame").style.display = "none";
