@@ -2,21 +2,21 @@
 document
   .querySelector(".difficulty__container__house1")
   .addEventListener("click", loadEasyGame);
-function loadEasyGame(){
-  document.querySelector("#difficulty").style.display="none";
-  document.querySelector("#easyGame").style.display="flex";
+function loadEasyGame() {
+  document.querySelector("#difficulty").style.display = "none";
+  document.querySelector("#easyGame").style.display = "flex";
   initEasyGame();
   easyGameStart();
 }
-function loadNormalGame(){
-  document.querySelector("#difficulty").style.display="none";
-  document.querySelector("#normalGame").style.display="flex";
+function loadNormalGame() {
+  document.querySelector("#difficulty").style.display = "none";
+  document.querySelector("#normalGame").style.display = "flex";
   cvs = document.getElementById("normalCanvas");
   ctx = cvs.getContext("2d");
 
   lifeSpan = document.querySelector(".normalGame__stats__life");
   scoreSpan = document.querySelector(".normalGame__stats__score");
-
+  brickImg.src = "src/brown_brick.png";
   title = document.querySelector(".normalGame__title");
   initNormalGame();
   normalGameStart();
@@ -168,7 +168,7 @@ function ballWallCollision() {
     //위쪽벽에 부딪히면
     ball.dy = -ball.dy; //y변화량 반대로
   }
-  if (ball.y + ball.dy + ball.radius > cvs.height) {
+  if (ball.y + ball.dy - ball.radius > cvs.height) {
     //아래쪽 벽에 부딪히면
     LIFE--; //user 목숨 감소
     resetBall(); //ball 초기화
@@ -215,7 +215,7 @@ var brick = {
   marginLeft: 65, //맨 왼쪽 brick과 캔버스사이 여백
 };
 var brickImg = new Image(brick.width, brick.height);
-brickImg.src = "src/testbrick.png";
+brickImg.src = "src/yellow_brick.png";
 var bricks = []; //brick담을 2차원배열
 
 //brick 처음 생성하는 함수
@@ -249,49 +249,30 @@ function drawBricks() {
     }
   }
 }
-function isPointInCircle(tball,x,y){
-  var dx = tball.x - x;
-  var dy = tball.y - y;
-  var length = Math.sqrt(dx*dx+dy*dy);
-  if(length>tball.radius) return false;
-  return true;
-}
-function isCollision(tball,tbrick){
-  if((tbrick.x<=tball.x&&tball.x<=tbrick.x+brick.width)|| // 공의 중심이 
-    (tbrick.y<=tball.y&&tball.y<=tbrick.y-brick.height)){
-       //확장한 사각형
-      var left = tbrick.x - tball.radius;
-      var right = tbrick.x + brick.width + tball.radius;
-      var top = tbrick.y + brick.height -ball.radius;
-      var bottom = tbrick.y + ball.radius;
-      if((left<tball.x&&tball.x<right)&&(top<tball.y&&tball.y<bottom)){
-        return true;
-      }
-    } 
-  else{ //꼭짓점 확인
-    if(isPointInCircle(tball,tbrick.x,tbrick.y)) return true;
-    if(isPointInCircle(tball,tbrick.x,tbrick.y-brick.height)) return true;
-    if(isPointInCircle(tball,tbrick.x+brick.width,tbrick.y)) return true;
-    if(isPointInCircle(tball,tbrick.x+brick.width,tbrick.y-brick.height)) return true;
-  }
-  return false;
-}
+
 function ballBrickCollision() {
   for (var r = 0; r < brick.row; r++) {
     for (var c = 0; c < brick.column; c++) {
       var b = bricks[r][c];
       if (b.status) {
-        //if(isCollision(ball,b))
         //만약 brick이 깨지지 않았다면
         if (
-          ball.x + ball.radius > b.x+2 && //ball의 오른쪽이 brick의 왼쪽에 맞으면
-          ball.x - ball.radius < b.x + brick.width-2 && //ball의 왼쪽이 brick의 오른쪽에 맞으면
-          ball.y + ball.radius > b.y+2 && //ball의 아래쪽이 brick의 위쪽에 맞으면
-          ball.y - ball.radius < b.y + brick.height-2 //ball의 위쪽이 brick의 아래쪽에 맞으면
+          ball.x + ball.radius > b.x + 3 && //ball의 오른쪽이 brick의 왼쪽에 맞으면
+          ball.x - ball.radius < b.x + brick.width - 3 && //ball의 왼쪽이 brick의 오른쪽에 맞으면
+          ball.y + ball.radius > b.y + 3 && //ball의 아래쪽이 brick의 위쪽에 맞으면
+          ball.y - ball.radius < b.y + brick.height - 3 //ball의 위쪽이 brick의 아래쪽에 맞으면
         ) {
-          ball.dy = -ball.dy; //방향변경 (수정필요할듯)
-          b.status = false; // brick 깨짐
-          SCORE += 1; //1점올리기
+          if (ball.x < b.x || b.x + brick.width < ball.x) {
+            //왼/오른쪽 맞으면
+            ball.dx *= -1;
+            b.status = false;
+            SCORE += 1;
+          } else {
+            //위아래 맞으면
+            ball.dy *= -1;
+            b.status = false; // brick 깨짐
+            SCORE += 1; //1점올리기
+          }
         }
       }
     }
@@ -310,14 +291,14 @@ var pig = {
   height: 30,
 };
 
-function createPig(){ //pig 생성자
-  var xindex=Math.floor(Math.random()*(brick.row-1))+1; //xindex
-  var yindex=Math.floor(Math.random()*(brick.column-1))+1;//yindex
-  pig.xindex=xindex;
-  pig.yindex=yindex;
-  pig.x=bricks[xindex][yindex].x-15; //돼지 몸통이 중심에 오도록..
-  pig.y=bricks[xindex][yindex].y-15;
-
+function createPig() {
+  //pig 생성자
+  var xindex = Math.floor(Math.random() * (brick.row - 1)) + 1; //xindex
+  var yindex = Math.floor(Math.random() * (brick.column - 1)) + 1; //yindex
+  pig.xindex = xindex;
+  pig.yindex = yindex;
+  pig.x = bricks[xindex][yindex].x - pig.width / 2; //돼지 몸통이 중심에 오도록..
+  pig.y = bricks[xindex][yindex].y - pig.height / 2;
 }
 var pigImg = new Image(pig.width, pig.height);
 pigImg.src = "src/pigs_1.png";
@@ -410,7 +391,7 @@ function easyGameWin() {
       var easymode = document.querySelector(".difficulty__container__house1");
       easymode.setAttribute("src", "./src/house1Clear.png");
       easymode.style.opacity = 0.5;
-      easymode.removeEventListener("click",loadEasyGame);
+      easymode.removeEventListener("click", loadEasyGame);
       document.querySelector(
         ".difficulty__container__house2"
       ).style.opacity = 1;
@@ -419,7 +400,7 @@ function easyGameWin() {
       ).style.opacity = 0.5;
       document // add click event to next level
         .querySelector(".difficulty__container__house2")
-        .addEventListener("click",loadNormalGame);
+        .addEventListener("click", loadNormalGame);
     }, 1000);
   }
 }

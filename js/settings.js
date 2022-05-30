@@ -1,7 +1,7 @@
 //bgm
 
 //paddle
-var PADDLE_COLOR = "";
+var PADDLE_COLOR = "wheat";
 document
   .querySelector(".settings__label__paddle__paddle1")
   .addEventListener("click", () => {
@@ -33,7 +33,7 @@ document
     document.querySelector(
       ".settings__label__bckImg__day"
     ).style.backgroundColor = "aquamarine";
-    document.querySelector(".difficulty__title").style.color = "rgb(0, 3, 190)";
+    document.querySelector("body").style.color = "#28A847";
   });
 
 document
@@ -41,7 +41,7 @@ document
   .addEventListener("click", () => {
     document.querySelector("#pageWrapper").style.backgroundImage =
       'url("src/background_night.png")';
-    document.querySelector(".difficulty__title").style.color = "#FA64AF";
+    document.querySelector("body").style.color = "#F5DE6C";
     document.querySelector(
       ".settings__label__bckImg__day"
     ).style.backgroundColor = "beige";

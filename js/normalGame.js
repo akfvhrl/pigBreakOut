@@ -8,7 +8,7 @@ document.querySelector("#normalGame__muteBtn").addEventListener("click", () => {
     document.querySelector("#normalGame__muteBtn").src = "./src/mute.png";
   }
 });
-function loadHardGame(){
+function loadHardGame() {
   document.querySelector("#difficulty").style.display = "none";
   document.querySelector("#hardGame").style.display = "flex";
   cvs = document.getElementById("hardCanvas");
@@ -16,7 +16,7 @@ function loadHardGame(){
 
   lifeSpan = document.querySelector(".hardGame__stats__life");
   scoreSpan = document.querySelector(".hardGame__stats__score");
-
+  brickImg.src = "src/red_brick.png";
   title = document.querySelector(".hardGame__title");
   initHardGame();
   hardGameStart();
@@ -85,7 +85,7 @@ function normalGameWin() {
       document.querySelector("#normalGame").style.display = "none";
       document.querySelector("#difficulty").style.display = "flex";
       var normalmode = document.querySelector(".difficulty__container__house2");
-      normalmode.removeEventListener("click",loadNormalGame);
+      normalmode.removeEventListener("click", loadNormalGame);
       normalmode.setAttribute("src", "./src/house2Clear.png");
       normalmode.style.opacity = 0.5;
       document.querySelector(

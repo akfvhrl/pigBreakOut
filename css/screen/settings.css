@@ -8,6 +8,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  color: #af6cf5;
 }
 .settings__label {
   width: 500px;
